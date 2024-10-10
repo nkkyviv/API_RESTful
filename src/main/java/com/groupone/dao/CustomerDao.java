@@ -19,7 +19,7 @@ public class CustomerDao {
         // Adding sample customers with interested properties
         List<String> vivianProperties = Arrays.asList("Land - Lagos", "Apartment - Abuja");
         List<String> keneProperties = Arrays.asList("Land - Enugu", "Apartment - Port Harcourt");
-        List<String> maryProperties = Arrays.asList("Land - Abuja");
+        List<String> maryProperties = List.of("Land - Abuja");
 
 
         Customer cus1 = new Customer("Vivian", "Okafor", "0908356181", "vivian@yahoo.com", vivianProperties);

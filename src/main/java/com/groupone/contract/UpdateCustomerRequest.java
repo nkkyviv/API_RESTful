@@ -1,10 +1,14 @@
 package com.groupone.contract;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.List;
 
 public class UpdateCustomerRequest {
 
+    @NotBlank(message = "First name can not be Blank")
     private String firstName;
+    @NotBlank(message = "Last name can not be Blank")
     private String lastName;
     private String phoneNumber;
     private String email;
