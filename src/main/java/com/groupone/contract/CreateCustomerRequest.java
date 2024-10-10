@@ -1,8 +1,9 @@
 package com.groupone.contract;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.util.List;
 
 public class CreateCustomerRequest {
 
@@ -15,6 +16,8 @@ public class CreateCustomerRequest {
     private String phoneNumber;
     @NotBlank(message = "email can not be Blank")
     private String email;
+
+    private List<String> interestedProperties; // New field
 
     public String getFirstName() {
         return firstName;
@@ -46,5 +49,13 @@ public class CreateCustomerRequest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<String> getInterestedProperties() {
+        return interestedProperties;
+    }
+
+    public void setInterestedProperties(List<String> interestedProperties) {
+        this.interestedProperties = interestedProperties;
     }
 }

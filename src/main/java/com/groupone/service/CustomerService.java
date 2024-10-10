@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 public class CustomerService {
 
@@ -20,7 +21,7 @@ public class CustomerService {
     public boolean createCustomer(CreateCustomerRequest request){
 
         Customer customer = new Customer(request.getFirstName(), request.getLastName(),
-                request.getPhoneNumber(), request.getEmail() );
+                request.getPhoneNumber(), request.getEmail(), request.getInterestedProperties() );
         return customerDao.addCustomer(customer);
     }
 
@@ -34,7 +35,8 @@ public class CustomerService {
         Customer customer = new Customer(request.getFirstName(),
                 request.getLastName(),
                 request.getPhoneNumber(),
-                request.getEmail());
+                request.getEmail(),
+                request.getInterestedProperties());
 
         return customerDao.updateCustomer(id, customer);
     }

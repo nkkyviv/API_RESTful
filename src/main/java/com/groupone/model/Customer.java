@@ -1,5 +1,7 @@
 package com.groupone.model;
 
+import java.util.List;
+
 public class Customer {
 
     private int id;
@@ -7,21 +9,24 @@ public class Customer {
     private String lastName;
     private String phoneNumber;
     private String email;
+    private List<String> interestedProperties; // New field
 
-    public Customer(String firstName, String lastName, String phoneNumber, String email) {
+    public Customer(String firstName, String lastName, String phoneNumber, String email, List<String> interestedProperties) {
         this.firstName = firstName;
         this.phoneNumber = phoneNumber;
         this.lastName = lastName;
         this.email = email;
+        this.interestedProperties = interestedProperties;
     }
 
-    public Customer (int id, String firstName, String lastName, String phoneNumber, String email)
+    public Customer (int id, String firstName, String lastName, String phoneNumber, String email, List<String> interestedProperties)
     {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.interestedProperties = interestedProperties;
     }
 
     public int getId() {
@@ -62,5 +67,13 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<String> getInterestedProperties() {
+        return interestedProperties;
+    }
+
+    public void setInterestedProperties(List<String> interestedProperties) {
+        this.interestedProperties = interestedProperties;
     }
 }
