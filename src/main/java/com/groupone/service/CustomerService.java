@@ -30,6 +30,11 @@ public class CustomerService {
         return customerDao.getCustomers();
     }
 
+    public Customer getCustomer(int id){
+
+        return customerDao.getCustomer(id);
+    }
+
     public boolean updateCustomer(int id, UpdateCustomerRequest request){
 
         Customer customer = new Customer(request.getFirstName(),
@@ -39,5 +44,10 @@ public class CustomerService {
                 request.getInterestedProperties());
 
         return customerDao.updateCustomer(id, customer);
+    }
+
+    public boolean deleteCustomer(int id){
+
+        return customerDao.deleteCustomer(id);
     }
 }
