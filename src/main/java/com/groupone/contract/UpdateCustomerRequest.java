@@ -14,7 +14,7 @@ public class UpdateCustomerRequest {
     private String phoneNumber;
     @NotBlank(message = "email can not be Blank")
     private String email;
-    @NotBlank(message = "Interested Properties can not be Blank")
+
     private List<String> interestedProperties;
 
     public String getFirstName() {
