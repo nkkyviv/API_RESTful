@@ -51,23 +51,50 @@ public class CustomerDao {
         return customers;
     }
 
-    public boolean updateCustomer(int id, Customer customer)
-    {
-//        Customer exist = customers.stream()
-//                .filter(m -> m.getId() == (customer.getId()))
-//                .findAny().orElse(null);
+    public boolean updateCustomer(int id, Customer customer) {
+        // Find the existing customer using the provided id
+        Customer exist = customers.stream()
+                .filter(m -> m.getId() == id) // Filter by the provided id
+                .findAny()
+                .orElse(null); // If not found, return null
 
+        if (exist != null) {
+            // Update the fields with new values from the customer object
+            System.out.println("Updating customer first name from: " + exist.getFirstName() + " to: " + customer.getFirstName());
+
+            if (customer.getFirstName() != null) {
+                exist.setFirstName(customer.getFirstName());
+            }
+
+            if (customer.getLastName() != null) {
+                exist.setLastName(customer.getLastName());
+            }
+
+            if (customer.getPhoneNumber() != null) {
+                exist.setPhoneNumber(customer.getPhoneNumber());
+            }
+
+            if (customer.getEmail() != null) {
+                exist.setEmail(customer.getEmail());
+            }
+
+            if (customer.getInterestedProperties() != null) {
+                exist.setInterestedProperties(customer.getInterestedProperties());
+            }
+
+            return true; // Update was successful
+        }
+
+        return false;
+    }
+
+
+    // Delete a customer by ID
+    public boolean deleteCustomer(int id) {
         Customer exist = getCustomer(id);
-        if (exist != null)
-        {
-           exist.setFirstName(customer.getFirstName());
-           exist.setLastName(customer.getLastName());
-           exist.setPhoneNumber(customer.getPhoneNumber());
-           exist.setEmail(customer.getEmail());
-           exist.setInterestedProperties(customer.getInterestedProperties());
-
-           return true;
-
+        if (exist != null) {
+            customers.remove(exist);
+            return true;
         }
         return false;
     }

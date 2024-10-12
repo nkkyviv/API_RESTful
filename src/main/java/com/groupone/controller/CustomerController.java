@@ -4,8 +4,6 @@ import com.groupone.contract.CreateCustomerRequest;
 import com.groupone.contract.UpdateCustomerRequest;
 import com.groupone.model.Customer;
 import com.groupone.service.CustomerService;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -13,7 +11,6 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,20 +29,53 @@ public class CustomerController {
     }
 
     @GetMapping("/")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Results are Ok"),
+            @ApiResponse(responseCode = "400", description = "Invalid request"),
+            @ApiResponse(responseCode = "404", description = "resource not found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")}
+    )
     public List<Customer> getCustomer(){
 
         return customerService.getCustomers();
     }
+
+    @GetMapping("/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Results are Ok"),
+            @ApiResponse(responseCode = "400", description = "Invalid request"),
+            @ApiResponse(responseCode = "404", description = "resource not found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")}
+    )
+    public Customer getACustomer(@Valid @PathVariable int id) {
+
+        return customerService.getCustomer(id);
+    }
+
+    @PostMapping("/add")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Results are Ok"),
+            @ApiResponse(responseCode = "400", description = "Invalid request"),
+            @ApiResponse(responseCode = "404", description = "resource not found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")}
+    )
+    public ResponseEntity<?> addCustomer(
+            @Valid @RequestBody CreateCustomerRequest request){
+
+        if (customerService.createCustomer(request))
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        else
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     // Update an existing customer
     @PutMapping("/update/{id}")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Customer updated successfully"),
-            @ApiResponse(responseCode = "404", description = "Customer not found",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid request",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
+            @ApiResponse(responseCode = "200", description = "Results are Ok"),
+            @ApiResponse(responseCode = "400", description = "Invalid request"),
+            @ApiResponse(responseCode = "404", description = "resource not found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")}
+    )
     public ResponseEntity<?> updateCustomer(@Valid @PathVariable int id, @RequestBody UpdateCustomerRequest request) {
         if (customerService.updateCustomer(id, request)) {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -54,20 +84,20 @@ public class CustomerController {
         }
     }
 
-    @PostMapping("/add")
+    // Delete a customer @PathVariable is used to extract a variable from the URI (Uniform Resource Identifier) in a RESTful AP
+    @DeleteMapping("/delete/{id}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Results are Ok"),
             @ApiResponse(responseCode = "400", description = "Invalid request"),
             @ApiResponse(responseCode = "404", description = "resource not found"),
-            @ApiResponse(responseCode = "500", description = "Server Error"),}
+            @ApiResponse(responseCode = "500", description = "Server Error")}
     )
-    public ResponseEntity<?> addCustomer(
-            @Valid @RequestBody CreateCustomerRequest request){
-
-       if (customerService.createCustomer(request))
-            return new ResponseEntity<>(HttpStatus.CREATED);
-       else
-           return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<?> deleteCustomer(@PathVariable int id) {
+        if (customerService.deleteCustomer(id)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

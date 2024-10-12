@@ -13,8 +13,8 @@ public class Customer {
 
     public Customer(String firstName, String lastName, String phoneNumber, String email, List<String> interestedProperties) {
         this.firstName = firstName;
-        this.phoneNumber = phoneNumber;
         this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.interestedProperties = interestedProperties;
     }
